@@ -1,4 +1,4 @@
-# nextjs-8-jwt
+# hasura-jwt-auth
 
 > This is a project that draws the concept from two projects, namely  [passportjs-jwt-roles](https://github.com/hasura/graphql-engine/tree/master/community/boilerplates/auth-servers/passportjs-jwt-roles)  and  [nextjs-8-serverless](https://github.com/hasura/graphql-engine/tree/master/community/sample-apps/nextjs-8-serverless) 
 
