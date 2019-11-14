@@ -1,0 +1,25 @@
+version: '3.6'
+services:
+  postgres_auth:
+    image: postgres
+    volumes: 
+      - db_data_auth:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"      
+  auth-graphql-engine:
+    image: hasura/graphql-engine:latest
+    ports:
+    - "8082:8080"
+    depends_on:
+    - "postgres_auth"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres_auth:5432/postgres
+      HASURA_GRAPHQL_ACCESS_KEY: mysecretkey
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlfrvmvsZgRaX12ZhxidQ\nARLQ4wc3pZtDC1JlPZnlz67U9GOLQ8Abmv2CzHr922cwZ6gfqQILofZMhWJxyo3E\nJHlrKHYEAKJgeRSQOoZM8KZFZZckNWPPR4A/+dlCcSExcnwD/SfWVjrm0AdPsmI7\nZGXhNYXAuPwjrcYVhzsfc3fuSwSGy/aqWN7Yxv1M7CClgiyfFoPTDOXvC4cn3nv9\nLayv0ip/OfFnEEaOyv8ogDjLQmON7JT5PN53KO+IO6fHApxYCzoxpe242dzu0fan\ngMD/66b2B0j6wUe0BxKBrinNHfqK1bQqpyGmhpjpEngZNF/5/Uo/5v5mM4gVAflr\neQIDAQAB\n-----END PUBLIC KEY-----\n" }'      
+    command:
+      - graphql-engine
+      - serve
+      - --enable-console
+volumes:
+  db_data_auth:
